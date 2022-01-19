@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    parameters {
+        booleanParam(name: 'PUSH_AND_DEPLOY', defaultValue: false, description: 'AFter executing the Pipeline, push and deploy the changes')
+    }
+
     stages {
 
         stage('Setup') {
@@ -44,7 +48,7 @@ pipeline {
         stage('Push to repository') {
             when {
                 expression {
-                    params.deploy == true 
+                    params.PUSH_AND_DEPLOY 
                 }
             }
             steps {
@@ -58,7 +62,7 @@ pipeline {
         stage('Deploy') {
             when {
                 expression {
-                    params.deploy == true 
+                    params.PUSH_AND_DEPLOY
                 }
             }
             steps {
